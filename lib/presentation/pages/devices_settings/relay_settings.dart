@@ -21,17 +21,24 @@ class _RelaySettingsState extends State<RelaySettings> {
   void initState() {
     super.initState();
     var dataClone = jsonDecode(Constants.itemList[
-            Constants.itemList.keys.toList()[Constants.appbarMenuPosation]]
-        [Constants.isOnline == 'true' ? "device_Relay_Status" : "Device_Relay_Status"]);
+            Constants.itemList.keys.toList()[Constants.appbarMenuPosation]][
+        Constants.isOnline == 'true'
+            ? "device_Relay_Status"
+            : "Device_Relay_Status"]);
     jsonDecode(Constants.itemList[
                 Constants.itemList.keys.toList()[Constants.appbarMenuPosation]][
-            Constants.isOnline == 'true' ? "device_Relay_Status" : "Device_Relay_Status"])
+            Constants.isOnline == 'true'
+                ? "device_Relay_Status"
+                : "Device_Relay_Status"])
         .forEach((key, value) {
-      if (value["tp"] == "r" && value.keys.contains("delay")) {
+      if (key != 'sensor' &&
+          value["tp"] == "r" &&
+          value.keys.contains("delay")) {
         temp[key] = {
-          "type":
-              double.parse(dataClone[key]["delay"]) > 0 ? "toggle" : "on/off",
-          "delay": dataClone[key]["delay"],
+          "type": double.parse(dataClone[key]["delay"] ?? '0.0') > 0
+              ? "toggle"
+              : "on/off",
+          "delay": dataClone[key]["delay"] ?? '0.0',
         };
       }
     });
@@ -133,6 +140,7 @@ class _RelaySettingsState extends State<RelaySettings> {
                                 ),
                                 isExpanded: false,
                                 items: [
+                                  '0.0',
                                   '0.5',
                                   '1',
                                   '2',
@@ -222,17 +230,20 @@ class _RelaySettingsState extends State<RelaySettings> {
                                   ? "device_Relay_Status"
                                   : "Device_Relay_Status"]);
                           dataTemp.forEach((key, value) {
-                            if (temp[key]["type"] == "toggle") {
+                            if (key != 'sensor' &&
+                                temp[key]["type"] == "toggle") {
                               dataTemp[key]["delay"] = temp[key]["delay"];
-                            } else {
-                              dataTemp[key]["delay"] = "0";
+                            } else if (key != 'sensor' &&
+                                temp[key]["type"] == "on/off") {
+                              dataTemp[key]["delay"] = "0.0";
                             }
                           });
                           Constants.itemList[Constants.itemList.keys
-                              .toList()[Constants.appbarMenuPosation]][Constants
-                                  .isOnline == 'true'
-                              ? "device_Relay_Status"
-                              : "Device_Relay_Status"] = jsonEncode(dataTemp);
+                                      .toList()[Constants.appbarMenuPosation]][
+                                  Constants.isOnline == 'true'
+                                      ? "device_Relay_Status"
+                                      : "Device_Relay_Status"] =
+                              jsonEncode(dataTemp);
                           BlocProvider.of<ButtonDataCubit>(context).changeStatus(
                               appbarPos: Constants.appbarMenuPosation,
                               event: "UPDATE_REMOTE",

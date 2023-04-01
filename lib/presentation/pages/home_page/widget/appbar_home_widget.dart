@@ -30,7 +30,7 @@ class AppbarHomeWidget extends StatelessWidget {
             builder: (context, state) {
               return ScrollSnapList(
                 curve: Curves.linear,
-                initialIndex: 0,
+                initialIndex: Constants.appbarMenuPosation.toDouble(),
                 focusOnItemTap: true,
                 onItemFocus: (posation) async {
                   if (Constants.itemList.keys.isNotEmpty) {

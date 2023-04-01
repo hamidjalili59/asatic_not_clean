@@ -316,7 +316,6 @@ class _HomePageState extends State<HomePage> {
                                       ).show(context);
                                     }
                                     //
-
                                   } else {
                                     if (true) {
                                       Constants.isOffline = 'false';
@@ -363,7 +362,7 @@ class _HomePageState extends State<HomePage> {
               currentIndex: Constants.currentIndex,
               onTap: (i) async {
                 setState(() {
-                  Constants.appbarMenuPosation = i;
+                  // Constants.appbarMenuPosation = i;
                   Constants.currentIndex = i;
                 });
               },
