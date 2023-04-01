@@ -1,0 +1,21 @@
+name: flutter_socket_client
+description: A new Flutter package project.
+version: 0.0.1
+homepage: null
+
+environment:
+  sdk: '>=2.18.0 <3.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  dartz: ^0.10.1
+  flutter:
+    sdk: flutter
+  web_socket_channel: ^2.2.0
+
+dev_dependencies:
+  flutter_lints: ^2.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter: null
