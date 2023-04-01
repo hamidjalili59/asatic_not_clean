@@ -344,7 +344,7 @@ class _DevicesSettingsState extends State<DevicesSettings> {
                       },
                     ),
                     Container(
-                      height: 0.18.sh,
+                      height: 0.24.sh,
                       decoration: BoxDecoration(
                           boxShadow: const [
                             BoxShadow(
@@ -358,186 +358,216 @@ class _DevicesSettingsState extends State<DevicesSettings> {
                               bottomRight: Radius.circular(50))),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 26.0, right: 26.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: getSize(context, isWidth: false)! / 15),
-                              child: InkWell(
-                                onTap: () => Navigator.of(context).pop(),
-                                child: SizedBox(
-                                  width: 50,
-                                  child: Icon(
-                                    Icons.arrow_back_ios_new_rounded,
-                                    color: Constants.themeLight,
-                                    size: 30,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: getSize(context, isWidth: false)! / 30),
-                              child: SizedBox(
-                                width: 0.4.sw,
-                                height: 120,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    SvgPicture.asset(
-                                      // "assets/svg/wifi_router.svg",
-                                      "assets/svg/ssd.svg",
-                                      color: Constants.themeLight,
-                                      fit: BoxFit.fill,
-                                      // width: getSize(context, isWidth: true)! / 8,
-                                      width: 50.w,
-                                    ),
-                                    SizedBox(height: 0.015.sh),
-                                    InkWell(
-                                      onTap: () {
-                                        NAlertDialog(
-                                          title: Text("تغییر اسم دستگاه",
-                                              textDirection: TextDirection.rtl,
-                                              style: textStyler(
-                                                  color: Constants.themeLight)),
-                                          content: SizedBox(
-                                              width: 150,
-                                              height: 50,
-                                              child: TextField(
-                                                  controller:
-                                                      deviceTagController)),
-                                          actions: <Widget>[
-                                            MaterialButton(
-                                              child: Text("تایید",
-                                                  textDirection:
-                                                      TextDirection.rtl,
-                                                  style: textStyler(
-                                                      color: Constants
-                                                          .themeLight)),
-                                              onPressed: () {
-                                                setState(() {
-                                                  Constants.itemList[Constants
-                                                                  .itemList.keys
-                                                                  .toList()[
-                                                              Constants
-                                                                  .appbarMenuPosation]]
-                                                          ["tag"] =
-                                                      deviceTagController.text;
-                                                });
-                                                BlocProvider.of<
-                                                            ButtonDataCubit>(
-                                                        context)
-                                                    .changeStatus(
-                                                        appbarPos: Constants
-                                                            .appbarMenuPosation,
-                                                        event: "rename_device",
-                                                        log:
-                                                            """{"e":"RENAME_DEVICE","r":${Constants.appbarMenuPosation + 1},"t":${RestAPIConstants.phoneNumberID},"m":"${deviceTagController.text}"}""",
-                                                        isEvent: false);
-                                                // BlocProvider.of<ButtonDataCubit>(context).getAllDevicesData(context, false);
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                            MaterialButton(
-                                              child: Text("لغو",
-                                                  textDirection:
-                                                      TextDirection.rtl,
-                                                  style: textStyler(
-                                                      color: Constants
-                                                          .themeLight)),
-                                              onPressed: () {
-                                                deviceTagController.clear();
-                                                Navigator.of(context).pop();
-                                              },
-                                            )
-                                          ],
-                                        ).show(context);
-                                      },
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.edit,
-                                            size: 22.r,
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsets.only(right: 18.w),
-                                            child: Text(
-                                              // "Relay ${Constants.bodyItemPosation}",
-                                              Constants.itemList[Constants.itemList.keys.toList()[Constants.appbarMenuPosation]]
-                                                              ["tag"] !=
-                                                          null &&
-                                                      Constants
-                                                          .itemList[Constants
-                                                                  .itemList.keys
-                                                                  .toList()[Constants.appbarMenuPosation]]
-                                                              ["tag"]
-                                                          .isNotEmpty
-                                                  ? Constants.itemList[Constants
-                                                              .itemList.keys
-                                                              .toList()[
-                                                          Constants.appbarMenuPosation]]["tag"] ??
-                                                      ""
-                                                  : "دستگاه ${Constants.appbarMenuPosation + 1}",
-                                              style: textStyler(
-                                                  color: Constants.themeLight,
-                                                  fontsize: 16.r,
-                                                  fontWeight: FontWeight.bold),
-                                              textAlign: TextAlign.left,
-                                            ),
-                                          ),
-                                        ],
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: getSize(context, isWidth: false)! /
+                                          20),
+                                  child: InkWell(
+                                    onTap: () => Navigator.of(context).pop(),
+                                    child: SizedBox(
+                                      width: 50,
+                                      child: Icon(
+                                        Icons.arrow_back_ios_new_rounded,
+                                        color: Constants.themeLight,
+                                        size: 30,
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: getSize(context, isWidth: false)! / 15),
-                              child: SizedBox(
-                                width: 50,
-                                child: InkWell(
-                                  onTap: () {
-                                    Map temp1;
-                                    temp1 = jsonDecode(Constants.itemList[
-                                            Constants.itemList.keys.toList()[
-                                                Constants.appbarMenuPosation]][
-                                        Constants.isOnline == 'true'
-                                            ? "device_Relay_Status"
-                                            : "Device_Relay_Status"]);
-                                    if (!temp1["1"].containsKey("delay")) {
-                                      temp1.forEach((key, value) {
-                                        if (!temp1[key].containsKey("delay") &&
-                                            temp1[key]["tp"] == "r") {
-                                          temp1[key]["delay"] = "0";
-                                          Constants.itemList[Constants
-                                                          .itemList.keys
-                                                          .toList()[
-                                                      Constants
-                                                          .appbarMenuPosation]][
-                                                  Constants
-                                                          .isOnline == 'true'
-                                                      ? "device_Relay_Status"
-                                                      : "Device_Relay_Status"] =
-                                              jsonEncode(temp1);
-                                        }
-                                      });
-                                    }
-                                    Navigator.of(context)
-                                        .pushNamed("/relaySettings");
-                                  },
-                                  child: Icon(
-                                    Icons.settings,
-                                    color: Constants.themeLight,
-                                    size: 35,
                                   ),
                                 ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: getSize(context, isWidth: false)! /
+                                          40),
+                                  child: SizedBox(
+                                    width: 0.4.sw,
+                                    height: 120,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        SvgPicture.asset(
+                                          // "assets/svg/wifi_router.svg",
+                                          "assets/svg/ssd.svg",
+                                          color: Constants.themeLight,
+                                          fit: BoxFit.fill,
+                                          // width: getSize(context, isWidth: true)! / 8,
+                                          width: 50.w,
+                                        ),
+                                        SizedBox(height: 0.015.sh),
+                                        InkWell(
+                                          onTap: () {
+                                            NAlertDialog(
+                                              title: Text("تغییر اسم دستگاه",
+                                                  textDirection:
+                                                      TextDirection.rtl,
+                                                  style: textStyler(
+                                                      color: Constants
+                                                          .themeLight)),
+                                              content: SizedBox(
+                                                  width: 150,
+                                                  height: 50,
+                                                  child: TextField(
+                                                      controller:
+                                                          deviceTagController)),
+                                              actions: <Widget>[
+                                                MaterialButton(
+                                                  child: Text("تایید",
+                                                      textDirection:
+                                                          TextDirection.rtl,
+                                                      style: textStyler(
+                                                          color: Constants
+                                                              .themeLight)),
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      Constants.itemList[Constants
+                                                                      .itemList.keys
+                                                                      .toList()[
+                                                                  Constants
+                                                                      .appbarMenuPosation]]
+                                                              ["tag"] =
+                                                          deviceTagController
+                                                              .text;
+                                                    });
+                                                    BlocProvider.of<
+                                                                ButtonDataCubit>(
+                                                            context)
+                                                        .changeStatus(
+                                                            appbarPos: Constants
+                                                                .appbarMenuPosation,
+                                                            event:
+                                                                "rename_device",
+                                                            log:
+                                                                """{"e":"RENAME_DEVICE","r":${Constants.appbarMenuPosation + 1},"t":${RestAPIConstants.phoneNumberID},"m":"${deviceTagController.text}"}""",
+                                                            isEvent: false);
+                                                    // BlocProvider.of<ButtonDataCubit>(context).getAllDevicesData(context, false);
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                                MaterialButton(
+                                                  child: Text("لغو",
+                                                      textDirection:
+                                                          TextDirection.rtl,
+                                                      style: textStyler(
+                                                          color: Constants
+                                                              .themeLight)),
+                                                  onPressed: () {
+                                                    deviceTagController.clear();
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                )
+                                              ],
+                                            ).show(context);
+                                          },
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons.edit,
+                                                size: 22.r,
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    right: 18.w),
+                                                child: Text(
+                                                  // "Relay ${Constants.bodyItemPosation}",
+                                                  Constants.itemList[Constants.itemList.keys.toList()[Constants.appbarMenuPosation]]
+                                                                  ["tag"] !=
+                                                              null &&
+                                                          Constants
+                                                              .itemList[
+                                                                  Constants
+                                                                      .itemList
+                                                                      .keys
+                                                                      .toList()[Constants.appbarMenuPosation]]
+                                                                  ["tag"]
+                                                              .isNotEmpty
+                                                      ? Constants.itemList[Constants
+                                                                  .itemList.keys
+                                                                  .toList()[Constants.appbarMenuPosation]]
+                                                              ["tag"] ??
+                                                          ""
+                                                      : "دستگاه ${Constants.appbarMenuPosation + 1}",
+                                                  style: textStyler(
+                                                      color:
+                                                          Constants.themeLight,
+                                                      fontsize: 16.r,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                  textAlign: TextAlign.left,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: getSize(context, isWidth: false)! /
+                                          20),
+                                  child: SizedBox(
+                                    width: 50,
+                                    child: InkWell(
+                                      onTap: () {
+                                        Map temp1;
+                                        temp1 = jsonDecode(Constants.itemList[
+                                                Constants.itemList.keys
+                                                        .toList()[
+                                                    Constants
+                                                        .appbarMenuPosation]][
+                                            Constants.isOnline == 'true'
+                                                ? "device_Relay_Status"
+                                                : "Device_Relay_Status"]);
+                                        if (!temp1["1"].containsKey("delay")) {
+                                          temp1.forEach((key, value) {
+                                            if (!temp1[key]
+                                                    .containsKey("delay") &&
+                                                temp1[key]["tp"] == "r") {
+                                              temp1[key]["delay"] = "0";
+                                              Constants.itemList[Constants
+                                                              .itemList.keys
+                                                              .toList()[
+                                                          Constants
+                                                              .appbarMenuPosation]]
+                                                      [
+                                                      Constants.isOnline ==
+                                                              'true'
+                                                          ? "device_Relay_Status"
+                                                          : "Device_Relay_Status"] =
+                                                  jsonEncode(temp1);
+                                            }
+                                          });
+                                        }
+                                        Navigator.of(context)
+                                            .pushNamed("/relaySettings");
+                                      },
+                                      child: Icon(
+                                        Icons.settings,
+                                        color: Constants.themeLight,
+                                        size: 35,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 50,
+                              child: Text(
+                                'تنظیمات ریموت‌ها',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18.r),
                               ),
                             ),
                           ],

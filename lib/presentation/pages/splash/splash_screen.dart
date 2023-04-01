@@ -32,7 +32,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     permissionHandler();
-    Future.delayed(const Duration(seconds: 1)).then((value) => checkUpdate(context));
+    Future.delayed(const Duration(seconds: 1))
+        .then((value) => checkUpdate(context));
     return BaseWidget(
       backgroundColor: Constants.themeLight,
       child: Stack(
@@ -157,10 +158,15 @@ class _SplashScreenState extends State<SplashScreen> {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     InkWell(
-                                      onTap: () {
+                                      onTap: () async {
                                         Constants.isOnline = 'true';
-                                        Navigator.pushNamed(
-                                            context, '/authentication');
+                                        if (Constants
+                                            .accountDataBox.isNotEmpty) {
+                                          await initWithStoredJWT(context);
+                                        } else {
+                                          Navigator.pushNamed(
+                                              context, '/authentication');
+                                        }
                                       },
                                       child: Container(
                                         width:

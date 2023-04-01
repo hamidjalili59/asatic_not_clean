@@ -18,10 +18,6 @@ class UserAuthenticationPage extends StatefulWidget {
 class _UserAuthenticationPageState extends State<UserAuthenticationPage> {
   @override
   Widget build(BuildContext context) {
-    if (Constants.accountDataBox.isNotEmpty) {
-      initWithStoredJWT(context);
-    }
-
     return BlocBuilder<ButtonDataCubit, ButtonDataState>(
       builder: (context, state) {
         return BlurryModalProgressHUD(

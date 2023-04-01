@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +41,7 @@ class _TimerConfigPageState extends State<TimerConfigPage> {
           ["r${Constants.bodyItemPosation}"][Constants.timerConfigPos];
     } else {
       tempAlarm = {
-        "mode": "date",
+        "mode": "none",
         "enable": true,
         "start": Jalali.now().toJalaliDateTime().substring(0, 10) +
             DateTime.now().toString().substring(10, 16),
@@ -104,18 +106,21 @@ class _TimerConfigPageState extends State<TimerConfigPage> {
                             if (value) {
                               await BlocProvider.of<ButtonDataCubit>(context)
                                   .changeStatusButton(
+                                      doChange: false,
                                       appbarPos: (Constants.appbarMenuPosation),
-                                      itemPos: (Constants.bodyItemPosation - 1));
+                                      itemPos:
+                                          (Constants.bodyItemPosation - 1));
                             }
                           });
                         } else {
                           await BlocProvider.of<ButtonDataCubit>(context)
                               .changeStatusButton(
+                                  doChange: false,
                                   appbarPos: (Constants.appbarMenuPosation),
                                   itemPos: Constants.bodyItemPosation - 1)
                               .timeout(const Duration(seconds: 10));
                         }
-                       
+
                         tempAlarm["start"] =
                             tempAlarm["start"].substring(0, 10) +
                                 dateS.toString().substring(10, 16);
@@ -123,93 +128,54 @@ class _TimerConfigPageState extends State<TimerConfigPage> {
                             dateE.toString().substring(10, 16);
                         //year condition
                         if (dateCompair(
-                            startIndex: 0, endIndex: 4, tempAlarm: tempAlarm)) {
+                                startIndex: 0,
+                                endIndex: 4,
+                                tempAlarm: tempAlarm) ||
+                            tempAlarm['mode'] != 'date') {
                           //mon condition
                           if (dateCompair(
-                              startIndex: 5,
-                              endIndex: 7,
-                              tempAlarm: tempAlarm)) {
+                                  startIndex: 5,
+                                  endIndex: 7,
+                                  tempAlarm: tempAlarm) ||
+                              tempAlarm['mode'] != 'date') {
                             //day condition
                             if (dateCompair(
-                                startIndex: 8,
-                                endIndex: 10,
-                                tempAlarm: tempAlarm)) {
-                              //hour condition
-                              if (dateCompair(
-                                  startIndex: 11,
-                                  endIndex: 13,
-                                  tempAlarm: tempAlarm)) {
-                                //min condition
-                                if (dateCompair(
-                                        startIndex: 14,
-                                        endIndex: 16,
-                                        isMin: true,
-                                        tempAlarm: tempAlarm) ||
-                                    dateCompair(
-                                        startIndex: 0,
-                                        endIndex: 4,
-                                        isMin: true,
-                                        tempAlarm: tempAlarm) ||
-                                    dateCompair(
-                                        startIndex: 5,
-                                        endIndex: 7,
-                                        isMin: true,
-                                        tempAlarm: tempAlarm) ||
-                                    dateCompair(
-                                        startIndex: 8,
-                                        endIndex: 10,
-                                        isMin: true,
-                                        tempAlarm: tempAlarm) ||
-                                    dateCompair(
-                                        startIndex: 11,
-                                        endIndex: 13,
-                                        isMin: true,
-                                        tempAlarm: tempAlarm)) {
-                                  BlocProvider.of<ButtonDataCubit>(context)
-                                      .setTimerState(context, 7,
-                                          picked: Jalali.now(),
-                                          relayPos:
-                                              "r${Constants.bodyItemPosation}",
-                                          devicePos:
-                                              Constants.appbarMenuPosation,
-                                          time: TimeOfDay.now(),
-                                          dataJson: tempAlarm,
-                                          mode: "date");
-                                  if (Constants.isOnline == 'true') {
-                                    await BlocProvider.of<ButtonDataCubit>(context)
-                                        .changeTimers(
-                                            log:
-                                                """{"e":"UPDATE_TIMER","r":${Constants.bodyItemPosation - 1},"t":${RestAPIConstants.phoneNumberID},"s":1}""",
-                                            appbarPos:
-                                                Constants.appbarMenuPosation,
-                                            event: "UPDATE_TIMER",
-                                            isEvent: false,
-                                            timerData: Constants
-                                                .timerData[Constants
-                                                    .itemList.keys
-                                                    .toList()[
+                                    startIndex: 8,
+                                    endIndex: 10,
+                                    tempAlarm: tempAlarm) ||
+                                tempAlarm['mode'] != 'date') {
+                              BlocProvider.of<ButtonDataCubit>(context)
+                                  .setTimerState(context, 7,
+                                      picked: Jalali.now(),
+                                      relayPos:
+                                          "r${Constants.bodyItemPosation}",
+                                      devicePos: Constants.appbarMenuPosation,
+                                      time: TimeOfDay.now(),
+                                      dataJson: tempAlarm,
+                                      mode: "date");
+                              if (Constants.isOnline == 'true') {
+                                await BlocProvider.of<ButtonDataCubit>(context)
+                                    .changeTimers(
+                                        log:
+                                            """{"e":"UPDATE_TIMER","r":${Constants.bodyItemPosation - 1},"t":${RestAPIConstants.phoneNumberID},"s":1}""",
+                                        appbarPos: Constants.appbarMenuPosation,
+                                        event: "UPDATE_TIMER",
+                                        isEvent: false,
+                                        timerData: Constants.timerData[
+                                            Constants.itemList.keys.toList()[
                                                 Constants.appbarMenuPosation]]);
-                                  } else {
-                                    await httpRequestPost(
-                                        postUrl: Constants.hostUrl,
-                                        body: {
-                                          "Message": jsonEncode(Constants
-                                              .timerData[Constants.itemList.keys
-                                                  .toList()[
-                                              Constants.appbarMenuPosation]]),
-                                          "Event": "Updatetimer"
-                                        });
-                                  }
-
-                                  Navigator.pop(context);
-                                } else {
-                                  displaySnackBar(context,
-                                      message: 'در وارد کردن دقیقه دقت کنید');
-                                }
                               } else {
-                                displaySnackBar(context,
-                                    message: 'در وارد کردن ساعت دقت کنید');
+                                await httpRequestPost(
+                                    postUrl: Constants.hostUrl,
+                                    body: {
+                                      "Message": jsonEncode(Constants.timerData[
+                                          Constants.itemList.keys.toList()[
+                                              Constants.appbarMenuPosation]]),
+                                      "Event": "Updatetimer"
+                                    });
                               }
+
+                              Navigator.pop(context);
                             } else {
                               displaySnackBar(context,
                                   message: 'در وارد کردن روز دقت کنید');
