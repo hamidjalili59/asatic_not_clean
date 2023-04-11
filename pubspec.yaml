@@ -55,8 +55,8 @@ dependencies:
   time_picker_sheet: ^0.0.2+1
   web_socket_channel: ^2.2.0
   url_launcher: ^6.1.7
-  wifi_iot: ^0.3.17
-  wifi_scan: ^0.3.0
+  wifi_iot: ^0.3.18
+  wifi_scan: ^0.4.0+1
 
 dev_dependencies:
   build_runner: ^2.2.0

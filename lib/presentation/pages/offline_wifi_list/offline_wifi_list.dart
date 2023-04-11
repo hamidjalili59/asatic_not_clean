@@ -20,12 +20,30 @@ class _WifiListOfflineState extends State<WifiListOffline> {
   List<WiFiAccessPoint> accessPoints = <WiFiAccessPoint>[];
   bool get isStreaming => Constants.wifiSubscription != null;
 
-  void _handleScannedResults(BuildContext context,
-      Result<List<WiFiAccessPoint>, GetScannedResultsErrors> result) {
-    if (result.hasError) {
-      setState(() => accessPoints = <WiFiAccessPoint>[]);
-    } else {
-      setState(() => accessPoints = result.value!);
+  void _handleScannedResults(
+      BuildContext context,
+      // Result<List<WiFiAccessPoint>, GetScannedResultsErrors> result) {
+      List<WiFiAccessPoint> result) async {
+    // if (result.hasError) {
+    //   setState(() => accessPoints = <WiFiAccessPoint>[]);
+    // } else {
+    //   setState(() => accessPoints = result.value!);
+    // }
+    final can =
+        await WiFiScan.instance.canGetScannedResults(askPermissions: true);
+    switch (can) {
+      case CanGetScannedResults.yes:
+        // listen to onScannedResultsAvailable stream
+        Constants.wifiSubscription =
+            WiFiScan.instance.onScannedResultsAvailable.listen((results) {
+          // update accessPoints
+          setState(() => accessPoints = results);
+        });
+        // ...
+        break;
+      default:
+        break;
+      // ... handle other cases of CanGetScannedResults values
     }
   }
 

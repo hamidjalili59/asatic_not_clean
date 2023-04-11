@@ -143,8 +143,9 @@ class Constants {
   static Map<String, dynamic> nameAndDeviceID = {};
 
   static List<String> navbarPageRoutes = ["/home", "/profile", "/settings"];
-  static StreamSubscription<
-      Result<List<WiFiAccessPoint>, GetScannedResultsErrors>>? wifiSubscription;
+  // static StreamSubscription<
+  //     Result<List<WiFiAccessPoint>, GetScannedResultsErrors>>? wifiSubscription;
+  static StreamSubscription<List<WiFiAccessPoint>>? wifiSubscription;
   static List<dynamic> filteredLogs = [];
   // static List<dynamic> filteredLogs = List.empty(growable: true);
   static List<TextEditingController> editTextList = [];

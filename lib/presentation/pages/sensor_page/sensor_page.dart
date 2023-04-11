@@ -738,7 +738,6 @@ class _SensorPageState extends State<SensorPage> {
                     //         itemPos: Constants.bodyItemPosation)
                     //     .timeout(const Duration(seconds: 10));
                   }
-                  
                 }
               },
               child: Container(

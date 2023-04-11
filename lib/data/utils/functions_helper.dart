@@ -440,7 +440,7 @@ NDialog _updateDialogMethod(BuildContext context) {
           const url = 'http://asatic.ir/resource/app.apk';
           final uri = Uri.parse(url);
           if (await canLaunchUrl(uri)) {
-            await launchUrl(uri,mode: LaunchMode.externalApplication);
+            await launchUrl(uri, mode: LaunchMode.externalApplication);
           } else {
             throw 'Could not launch $url';
           }
@@ -510,6 +510,7 @@ Future<void> downloadFile(String url, String name) async {
 
 Future<Response> httpRequestGet({required String getUrl}) async {
   // Await the http get response, then decode the json-formatted response.
+  print('get $getUrl');
 
   Response response = await Constants.dio
       .get(
@@ -534,6 +535,8 @@ Future<Response> httpRequestGet({required String getUrl}) async {
 
 Future<Response> httpRequestPost(
     {required String postUrl, required dynamic body}) async {
+  print('post $postUrl');
+  print('post $body');
   Response response = await Constants.dio
       .post(
     postUrl,
@@ -560,6 +563,8 @@ Future<Response> httpRequestPost(
 
 Future<Response> httpRequestPut(
     {required String putUrl, required Map<String, dynamic> body}) async {
+  print('post $putUrl');
+  print('post $body');
   if (body.containsKey("device_Relay_Timer")) {
     body.remove("device_Relay_Timer");
   }
@@ -589,6 +594,8 @@ Future<Response> httpRequestPut(
 
 Future<Response> httpRequestDelete(
     {required String deleteUrl, required dynamic body}) async {
+  print('post $deleteUrl');
+  print('post $body');
   Response response = await Constants.dio
       .delete(
     deleteUrl,
@@ -863,7 +870,7 @@ void showBottomFlash(
                         Constants.setOnline = false;
                         Constants.currentIndex = 0;
                         Constants.accountDataBox.delete("AccountData");
-                        Constants.accountDataBox.clear();
+                        // Constants.accountDataBox.clear();
                         // .put("AccountData", AccountData(cookie: '',phoneNum: 0));
                       } else if (event == "disconnected") {
                         BlocProvider.of<ButtonDataCubit>(context)
@@ -917,16 +924,12 @@ Future<bool?> showDialogFlash(
       });
 }
 
-void permissionHandler() async {
-  PermissionStatus cPermissionStatus = await Permission.camera.status;
-  PermissionStatus sPermissionStatus = await Permission.storage.status;
+Future<void> permissionHandler() async {
+  // PermissionStatus sPermissionStatus = await Permission.storage.status;
   PermissionStatus lPermissionStatus = await Permission.location.status;
-  if (cPermissionStatus.isDenied) {
-    await Permission.camera.request();
-  }
-  if (sPermissionStatus.isDenied) {
-    await Permission.storage.request();
-  }
+  // if (sPermissionStatus.isDenied) {
+  //   await Permission.storage.request();
+  // }
   if (lPermissionStatus.isDenied) {
     await Permission.location.request();
   }

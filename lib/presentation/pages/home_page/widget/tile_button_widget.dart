@@ -29,6 +29,7 @@ class TileButtonWidget extends StatelessWidget {
     }
 
     Future<void> onTap(bool isNotSensor, BuildContext context) async {
+      print('_____________object______________');
       if (Constants.itemListCurrentPage[(index + 1).toString()]['rMode'] ==
               'T' ||
           Constants.itemListCurrentPage[(index + 1).toString()]['rMode'] ==

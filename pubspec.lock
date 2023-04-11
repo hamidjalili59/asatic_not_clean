@@ -1256,10 +1256,10 @@ packages:
     dependency: "direct main"
     description:
       name: wifi_scan
-      sha256: d6f0c7ef4285543765a9b235810b4633369443352607901e8a442a8ef28f26b4
+      sha256: aba3aa28f45b817356048022d0dde0c8b2e4054ed0151489bfc3103f7197d19d
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.0"
+    version: "0.4.0+1"
   win32:
     dependency: transitive
     description:

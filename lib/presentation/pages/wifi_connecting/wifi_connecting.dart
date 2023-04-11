@@ -35,6 +35,9 @@ class _WifiConnectedState extends State<WifiConnected> {
         return true;
       } else {
         await WiFiForIoTPlugin.disconnect();
+        if (!await WiFiForIoTPlugin.isRegisteredWifiNetwork(widget.ssid)) {
+          await WiFiForIoTPlugin.registerWifiNetwork(widget.ssid);
+        }
         return await WiFiForIoTPlugin.connect(widget.ssid,
             password: widget.pwd,
             timeoutInSeconds: 7,

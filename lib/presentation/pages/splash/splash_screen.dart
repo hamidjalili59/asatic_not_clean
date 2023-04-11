@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    permissionHandler();
+    // permissionHandler();
     Future.delayed(const Duration(seconds: 1))
         .then((value) => checkUpdate(context));
     return BaseWidget(
@@ -159,13 +159,41 @@ class _SplashScreenState extends State<SplashScreen> {
                                   children: [
                                     InkWell(
                                       onTap: () async {
-                                        Constants.isOnline = 'true';
-                                        if (Constants
-                                            .accountDataBox.isNotEmpty) {
-                                          await initWithStoredJWT(context);
+                                        if (await Constants.accountDataBox
+                                                .get('policy') ??
+                                            false) {
+                                          Constants.isOnline = 'true';
+                                          Constants.setOnline = true;
+                                          if (Constants.accountDataBox
+                                                  .get('AccountData') !=
+                                              null) {
+                                            await initWithStoredJWT(context);
+                                          } else {
+                                            Navigator.pushNamed(
+                                                context, '/authentication');
+                                          }
                                         } else {
-                                          Navigator.pushNamed(
-                                              context, '/authentication');
+                                          NDialog(
+                                            content: SizedBox(
+                                                width: 0.25.sw,
+                                                height: 0.2.sh,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      16.0),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                        'لطفا بر روی شرایط استفاده از خدمات و حریم خصوصی کلیک کنید و بعد از مطالعه در انتهای مطلب آنرا تایید کنید.',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )),
+                                          ).show(context);
                                         }
                                       },
                                       child: Container(
@@ -195,84 +223,116 @@ class _SplashScreenState extends State<SplashScreen> {
                                     ),
                                     InkWell(
                                       onTap: () async {
-                                        if (await Permission.locationWhenInUse
-                                            .serviceStatus.isEnabled) {
-                                          WiFiForIoTPlugin.isEnabled()
-                                              .then((value) {
-                                            if (value == true) {
-                                              Constants.isOnline = 'false';
-                                              Navigator.pushNamed(
-                                                  context, '/add_device');
-                                            } else {
-                                              NDialog(
-                                                title: Text(
-                                                    "برای اتصال آفلاین به نرم افزار باید wifi دستگاه خود را روشن کنید",
-                                                    style: textStyler(
-                                                        color: Constants
-                                                            .themeLight),
-                                                    textAlign: TextAlign.center,
-                                                    textDirection:
-                                                        TextDirection.rtl),
-                                                actions: [
-                                                  InkWell(
-                                                    onTap: () {
-                                                      AppSettings
-                                                          .openWIFISettings();
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Container(
-                                                        alignment:
-                                                            Alignment.center,
-                                                        color:
-                                                            Constants.greenCol,
-                                                        height: 0.05.sh,
-                                                        child: Text(
-                                                            "بازکردن تنظیمات",
-                                                            style: textStyler(
-                                                                color: Constants
-                                                                    .themeLight),
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            textDirection:
-                                                                TextDirection
-                                                                    .rtl)),
-                                                  ),
-                                                ],
-                                              ).show(context);
-                                            }
-                                          });
+                                        if (await Constants.accountDataBox
+                                                .get('policy') ??
+                                            false) {
+                                          if (await Permission.locationWhenInUse
+                                              .serviceStatus.isEnabled) {
+                                            WiFiForIoTPlugin.isEnabled()
+                                                .then((value) {
+                                              if (value == true) {
+                                                Constants.isOnline = 'false';
+                                                Constants.setOnline = false;
+                                                Navigator.pushNamed(
+                                                    context, '/add_device');
+                                              } else {
+                                                NDialog(
+                                                  title: Text(
+                                                      "برای اتصال آفلاین به نرم افزار باید wifi دستگاه خود را روشن کنید",
+                                                      style: textStyler(
+                                                          color: Constants
+                                                              .themeLight),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      textDirection:
+                                                          TextDirection.rtl),
+                                                  actions: [
+                                                    InkWell(
+                                                      onTap: () {
+                                                        AppSettings
+                                                            .openWIFISettings();
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Container(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          color: Constants
+                                                              .greenCol,
+                                                          height: 0.05.sh,
+                                                          child: Text(
+                                                              "بازکردن تنظیمات",
+                                                              style: textStyler(
+                                                                  color: Constants
+                                                                      .themeLight),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              textDirection:
+                                                                  TextDirection
+                                                                      .rtl)),
+                                                    ),
+                                                  ],
+                                                ).show(context);
+                                              }
+                                            });
+                                          } else {
+                                            NDialog(
+                                              title: Text(
+                                                  "برای پیدا کردن wifi های اطراف باید سرویس location دستگاه خود را روشن کنید",
+                                                  style: textStyler(
+                                                      color:
+                                                          Constants.themeLight),
+                                                  textAlign: TextAlign.center,
+                                                  textDirection:
+                                                      TextDirection.rtl),
+                                              actions: [
+                                                InkWell(
+                                                  onTap: () {
+                                                    permissionHandler();
+                                                    AppSettings
+                                                        .openLocationSettings();
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Container(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      color: Constants.greenCol,
+                                                      height: 0.05.sh,
+                                                      child: Text(
+                                                          "بازکردن تنظیمات",
+                                                          style: textStyler(
+                                                              color: Constants
+                                                                  .themeLight),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          textDirection:
+                                                              TextDirection
+                                                                  .rtl)),
+                                                ),
+                                              ],
+                                            ).show(context);
+                                          }
                                         } else {
                                           NDialog(
-                                            title: Text(
-                                                "برای پیدا کردن wifi های اطراف باید سرویس location دستگاه خود را روشن کنید",
-                                                style: textStyler(
-                                                    color:
-                                                        Constants.themeLight),
-                                                textAlign: TextAlign.center,
-                                                textDirection:
-                                                    TextDirection.rtl),
-                                            actions: [
-                                              InkWell(
-                                                onTap: () {
-                                                  AppSettings
-                                                      .openLocationSettings();
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Container(
-                                                    alignment: Alignment.center,
-                                                    color: Constants.greenCol,
-                                                    height: 0.05.sh,
-                                                    child: Text(
-                                                        "بازکردن تنظیمات",
-                                                        style: textStyler(
-                                                            color: Constants
-                                                                .themeLight),
+                                            content: SizedBox(
+                                                width: 0.25.sw,
+                                                height: 0.2.sh,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(
+                                                      16.0),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Text(
+                                                        'لطفا بر روی شرایط استفاده از خدمات و حریم خصوصی کلیک کنید و بعد از مطالعه در انتهای مطلب آنرا تایید کنید.',
                                                         textAlign:
                                                             TextAlign.center,
-                                                        textDirection:
-                                                            TextDirection.rtl)),
-                                              ),
-                                            ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )),
                                           ).show(context);
                                         }
                                       },
@@ -304,6 +364,116 @@ class _SplashScreenState extends State<SplashScreen> {
                                 )
                               : const Center(
                                   child: CircularProgressIndicator()),
+                          InkWell(
+                            onTap: () async {
+                              String privacy =
+                                  '''با استفاده از دستگاه کنترل دستگاه های الکتریکی از راه دور، شما موافقت خود را با شرایط استفاده از خدمات و حریم خصوصی زیر اعلام می‌کنید:
+
+این دستگاه با استفاده از اینترنت و وای فای کار می‌کند و برای دسترسی به وای فای به موقعیت مکانی نیاز دارد.
+
+دستگاه دارای چهار رله برای کنترل دستگاه های برقی است و دارای عوامل کنترلی مثل تایمر های مختلف برای هر رله و حسگر سنسور دما و رطوبت برای کنترل جداگانه هر رله است.
+
+دستگاه قابلیت کنترل رله ها توسط ریموت کنترل را هم فراهم می‌کند و دارای نرم‌افزاری قدرتمند است که توسط آن می‌توانید هر ریموت را حذف یا غیر فعال کنید،تایمر ها را کنترل کنید و با استفاده از داده های سنسور ، رله ها را روشن یا خاموش کنید و با استفاده از نرم‌افزار می‌توانید بصورت دستی رله ها را روشن یا خاموش کنید.
+
+با استفاده از نرم‌افزار می‌توانید اجازه دسترسی کامل کنترل دستگاه را به کاربران دیگر بدهید و یا آنها را محدود کنید.
+
+دستگاه دارای محافظ برق برای نجات دستگاه های الکتریکی از نوسانات برق است و دستگاه میتواند بصورت آنلاین با آفلاین کار کند.
+اینجانب تایید می‌کنم که قوانین و شرایط استفاده از خدمات ارائه شده توسط این دستگاه را مطالعه کرده و می‌پذیرم.
+حریم خصوصی:
+این دستگاه حفاظت از حریم خصوصی کاربران را بسیار جدی می‌گیرد و از اطلاعات شما به دقت محافظت می‌کند. این دستگاه از اطلاعات شما به منظور ارتباط با دستگاه و کنترل آن استفاده می‌کند و هیچگونه اطلاعات شما را با شخص یا سازمان دیگری به اشتراک نمی‌گذارد.
+
+اطلاعاتی که در این دستگاه ذخیره می‌شود شامل شماره تلفن  شما می‌باشد که برای متمایز کردن با دیگر کاربران استفاده می‌شود.
+
+همچنین، این دستگاه از اطلاعات دستگاه‌های متصل به آن برای کنترل و مدیریت آنها استفاده می‌کند، اما هیچگونه اطلاعاتی را در مورد شما و دستگاه‌های شما با سایرین به اشتراک نمی‌گذارد.
+
+اطلاعات حساسی مانند شماره و کد نشست شما با استفاده از الگوریتم‌های رمزنگاری پیچیده محافظت می‌شوند و هیچ کس به جز شما قادر به دسترسی به آنها نیست.''';
+                              NDialog(
+                                content: SizedBox(
+                                  width: 0.7.sw,
+                                  height: 0.5.sh,
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        SizedBox(height: 20.h),
+                                        Text(
+                                          'شرایط استفاده از خدمات و حریم خصوصی:',
+                                          textDirection: TextDirection.rtl,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16.r),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        SizedBox(height: 50.h),
+                                        Text(
+                                          privacy,
+                                          textDirection: TextDirection.rtl,
+                                          textAlign: TextAlign.right,
+                                        ),
+                                        SizedBox(height: 30.h),
+                                        MaterialButton(
+                                          onPressed: () async {
+                                            await Constants.accountDataBox
+                                                .put('policy', true);
+                                            Future.delayed(const Duration(
+                                                    milliseconds: 300))
+                                                .then(
+                                              (value) => Navigator.pop(context),
+                                            );
+                                          },
+                                          color: Constants.greenCol,
+                                          minWidth: 80.w,
+                                          height: 50.h,
+                                          child:
+                                              const Text('شرایط را میپذیرم.'),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ).show(context);
+                            },
+                            child: SizedBox(
+                              width: 1.sw,
+                              height: 30,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Text(
+                                    'شرایط استفاده از خدمات',
+                                    style: TextStyle(
+                                      color: Colors.blueAccent,
+                                      decoration: TextDecoration.underline,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    ' و ',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  Text(
+                                    'حریم خصوصی',
+                                    style: TextStyle(
+                                      color: Colors.blueAccent,
+                                      decoration: TextDecoration.underline,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    ' را میپذیرم.',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
