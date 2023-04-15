@@ -222,7 +222,6 @@ class _HomePageState extends State<HomePage> {
                                                 color: Constants.greenCol,
                                               ),
                                             )
-                                            // Container(decoration: BoxDecoration(border: Border.all(color: Colors.grey)),height: 0.2.sh,)
                                           ],
                                         ),
                                       ),
@@ -236,20 +235,20 @@ class _HomePageState extends State<HomePage> {
                                       WiFiForIoTPlugin.isEnabled()
                                           .then((value) async {
                                         if (value == true) {
-                                          if (await isDataInternet() == false) {
-                                            showDialogAddDevice(
-                                              context: context,
-                                              title:
-                                                  "آیا قصد اتصال دستگاه به اینترنت را دارید",
-                                              content:
-                                                  "با زدن بر روی کلید بله شما به تنظیمات مودم منتقل میشوید",
-                                              route: "/add_device",
-                                            );
-                                          } else {
-                                            displaySnackBar(context,
-                                                message:
-                                                    'لطفا برای برقراری ارتباط با دستگاه اینترنت دیتا خود را خاموش کنید');
-                                          }
+                                          // if (await isDataInternet() == false) {
+                                          showDialogAddDevice(
+                                            context: context,
+                                            title:
+                                                "آیا قصد اتصال دستگاه به اینترنت را دارید",
+                                            content:
+                                                "با زدن بر روی کلید بله شما به تنظیمات مودم منتقل میشوید",
+                                            route: "/add_device",
+                                          );
+                                          // } else {
+                                          //   displaySnackBar(context,
+                                          //       message:
+                                          //           'لطفا برای برقراری ارتباط با دستگاه اینترنت دیتا خود را خاموش کنید');
+                                          // }
                                         } else {
                                           NDialog(
                                             title: Text(

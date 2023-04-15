@@ -56,8 +56,8 @@ class Constants {
   static bool flashDialogflag = false;
   static bool isTempConfigPage = false;
   static bool flagFolding = true;
-  static String isOnline = '';
-  static bool setOnline = false;
+  static String isOnline = 'true';
+  static bool setOnline = true;
   static String isOffline = '';
   static bool setSocketStatus = false;
   static bool socketStarted = false;
@@ -184,7 +184,7 @@ class Constants {
   static Stream<bool>? streamPingPongInternal(context) =>
       Stream<bool>.periodic(const Duration(seconds: 5), (d) {
         return FlutterSocketClientImpl.socketStarted;
-      }).takeWhile((element) => Constants.isOnline == 'false');
+      }).takeWhile((element) => isOnline == 'false');
 
   static StreamSubscription<dynamic>? stream;
   static AsaticWebSocketHandler? streamOnline;
@@ -202,7 +202,7 @@ class Constants {
     "PhoneNum":${RestAPIConstants.phoneNumberID}
 }""";
   //urls
-  static String hostUrl = isOnline == 'true' && !setOnline
+  static String hostUrl = isOnline == 'true' && setOnline
       ? "http://asatic.ir/"
       : "http://192.168.1.210/";
   static String dataBaseSocket = "/ws?name=";

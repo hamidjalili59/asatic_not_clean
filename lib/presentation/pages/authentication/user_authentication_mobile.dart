@@ -196,11 +196,10 @@ class _UserAuthenticationMobileWidgetState
                                   _number.text
                                       .substring(1, _number.text.length);
                                   ApiServices()
-                                          .accountSession(context)
-                                          .catchError((err) {
+                                      .accountSession(context)
+                                      .catchError((err) {
                                     handlingErr(statusCode: err.toString());
-                                  })
-                                      ;
+                                  });
                                 } else {
                                   displaySnackBar(context,
                                       message: 'دسترسی به اینترنت موجود نیست');
@@ -286,12 +285,6 @@ class OnScreenKeyboard extends StatelessWidget {
                   if (Constants.isOnline == 'true') {
                     await BlocProvider.of<ButtonDataCubit>(context)
                         .getAllDevicesData(context, false, isHttpMode: true);
-                  }
-                  // await ApiServices().getAllDevicesDataMethod()
-                  //     .then((value) async => await Navigator.of(context).pushNamedAndRemoveUntil("/home", (Route<dynamic> route) => false));
-                  if (Constants.isOnline == 'true') {
-                    await Navigator.of(context).pushNamedAndRemoveUntil(
-                        "/home", (Route<dynamic> route) => false);
                   } else {
                     await Navigator.of(context).pushNamedAndRemoveUntil(
                         "/wifiConnect", (Route<dynamic> route) => false);

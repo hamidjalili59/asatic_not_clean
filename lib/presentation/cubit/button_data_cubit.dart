@@ -39,7 +39,7 @@ class ButtonDataCubit extends Cubit<ButtonDataState> {
               log:
                   """{"e":"UPDATE","r":${itemPos + 1},"t":${RestAPIConstants.phoneNumberID},"s":${Constants.itemListCurrentPage[(itemPos + 1).toString()]["status"] == true ? 1 : 0}}""",
               event: "UPDATE",
-              url: !(Constants.isOnline == 'true')
+              url: Constants.isOnline == 'false'
                   ? "http://192.168.1.210"
                   : "http://asatic.ir/api/Devices",
               isEvent: false,
@@ -140,7 +140,7 @@ class ButtonDataCubit extends Cubit<ButtonDataState> {
                 event: event,
                 isEvent: isEvent,
                 body: timerData,
-                url: !(Constants.isOnline == 'true')
+                url: Constants.isOnline == 'false'
                     ? "http://192.168.1.210"
                     : "${Constants.hostUrl}api/Devices/updatetimermobile",
                 isTimer: true)

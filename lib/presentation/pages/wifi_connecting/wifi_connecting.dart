@@ -236,9 +236,6 @@ class _WifiConnectedState extends State<WifiConnected> {
       docJson["update_doc_link"] = Constants.updateDocLink;
       docJson["event"] = "initonline";
       await WiFiForIoTPlugin.forceWifiUsage(true).then((value) async {
-        // IOWebSocketChannel wsChannel =
-        //     IOWebSocketChannel.connect(Uri.parse("ws://192.168.1.210:150"));
-
         if (countRelay == 4) {
           docJson["doc_devices_status"] = convert.jsonEncode({
             "1": {"status_button": false, "timer": []},

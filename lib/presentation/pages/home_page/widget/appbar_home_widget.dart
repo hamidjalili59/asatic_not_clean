@@ -17,8 +17,7 @@ class AppbarHomeWidget extends StatelessWidget {
     GlobalKey<ScrollSnapListState> appbarKey =
         GlobalKey<ScrollSnapListState>(debugLabel: "appbar");
     return PhysicalShape(
-      clipper:
-          Constants.appBarCardListLength >= 1 ? AppBarClipper() : NullClipper(),
+      clipper: AppBarClipper(),
       elevation: 8,
       color: Colors.transparent,
       shadowColor: Colors.black87,

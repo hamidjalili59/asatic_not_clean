@@ -444,8 +444,6 @@ NDialog _updateDialogMethod(BuildContext context) {
           } else {
             throw 'Could not launch $url';
           }
-          // await downloadFile(
-          //     'http://asatic.ir/resource/app.apk', 'apphamid.apk');
         },
         minWidth: 50,
         child: Text(
@@ -487,25 +485,6 @@ NDialog _updateDialogMethod(BuildContext context) {
       ),
     ),
   );
-}
-
-Future<void> downloadFile(String url, String name) async {
-  // final appStorage = await getApplicationSupportDirectory();
-  // final file = File('${appStorage.path}/$name');
-  // print('shoroe');
-  // final response = await Dio().get(url,
-  //     options: Options(
-  //       responseType: ResponseType.bytes,
-  //       followRedirects: false,
-  //       receiveTimeout: 0,
-  //     ));
-
-  // final raf = file.openSync(mode: FileMode.write);
-  // raf.writeFromSync(response.data);
-  // await raf.close();
-  // print('tamam');
-
-  // return file;
 }
 
 Future<Response> httpRequestGet({required String getUrl}) async {
@@ -925,11 +904,7 @@ Future<bool?> showDialogFlash(
 }
 
 Future<void> permissionHandler() async {
-  // PermissionStatus sPermissionStatus = await Permission.storage.status;
   PermissionStatus lPermissionStatus = await Permission.location.status;
-  // if (sPermissionStatus.isDenied) {
-  //   await Permission.storage.request();
-  // }
   if (lPermissionStatus.isDenied) {
     await Permission.location.request();
   }

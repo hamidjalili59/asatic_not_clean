@@ -42,24 +42,6 @@ class _HomeMobileWidgetState extends State<HomeMobileWidget> {
       if (Constants.itemList.keys.isNotEmpty) {
         checkTimersActivity(context);
       }
-      // if (Constants.itemList.keys.isNotEmpty) {
-      //   Constants.itemList.forEach((key, element) {
-      //     Map<String, dynamic> relaysInDevice =
-      //         jsonDecode(element['device_Relay_Status']);
-      //     relaysInDevice.forEach((key1, relays) {
-      //       if (key1 != 'sensor' &&
-      //           relays.containsKey('rMode') &&
-      //           relays['rMode'] == '') {
-      //         relaysInDevice[key1]['rMode'] = 'M';
-      //       } else if (key1 != 'sensor' && !relays.containsKey('rMode')) {
-      //         relaysInDevice[key1]['rMode'] = 'M';
-      //       }
-      //       //
-      //     });
-      //     Constants.itemList[key]['device_Relay_Status'] =
-      //         jsonEncode(relaysInDevice);
-      //   });
-      // }
     } catch (_) {}
     permissionHandler();
   }
@@ -134,8 +116,10 @@ class _HomeMobileWidgetState extends State<HomeMobileWidget> {
                         SizedBox(height: 0.1.sh)
                       ],
                     ),
-              const Positioned(
-                child: AppbarHomeWidget(),
+              Positioned(
+                child: Constants.appBarCardListLength >= 1
+                    ? const AppbarHomeWidget()
+                    : const SizedBox(),
               ),
             ],
           );
