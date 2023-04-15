@@ -235,7 +235,6 @@ class _HomePageState extends State<HomePage> {
                                       WiFiForIoTPlugin.isEnabled()
                                           .then((value) async {
                                         if (value == true) {
-                                          // if (await isDataInternet() == false) {
                                           showDialogAddDevice(
                                             context: context,
                                             title:
@@ -244,11 +243,6 @@ class _HomePageState extends State<HomePage> {
                                                 "با زدن بر روی کلید بله شما به تنظیمات مودم منتقل میشوید",
                                             route: "/add_device",
                                           );
-                                          // } else {
-                                          //   displaySnackBar(context,
-                                          //       message:
-                                          //           'لطفا برای برقراری ارتباط با دستگاه اینترنت دیتا خود را خاموش کنید');
-                                          // }
                                         } else {
                                           NDialog(
                                             title: Text(
@@ -323,20 +317,14 @@ class _HomePageState extends State<HomePage> {
                                           .whenComplete(() async =>
                                               await WiFiForIoTPlugin
                                                   .disconnect());
-                                      if (await isDataInternet() == false) {
-                                        showDialogAddDevice(
-                                          context: context,
-                                          title:
-                                              "آیا قصد اتصال دستگاه به اینترنت را دارید",
-                                          content:
-                                              "برای اتصال دستگاه به اینترنت باید وارد اکانت خود شوید با زدن بر روی کلید بله شما به صفحه ورود منتقل میشوید",
-                                          route: "/authentication",
-                                        );
-                                      } else {
-                                        displaySnackBar(context,
-                                            message:
-                                                'لطفا برای برقراری ارتباط با دستگاه اینترنت دیتا خود را خاموش کنید');
-                                      }
+                                      showDialogAddDevice(
+                                        context: context,
+                                        title:
+                                            "آیا قصد اتصال دستگاه به اینترنت را دارید",
+                                        content:
+                                            "برای اتصال دستگاه به اینترنت باید وارد اکانت خود شوید با زدن بر روی کلید بله شما به صفحه ورود منتقل میشوید",
+                                        route: "/authentication",
+                                      );
                                     }
                                   }
                                 },

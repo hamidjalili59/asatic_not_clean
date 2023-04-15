@@ -78,19 +78,13 @@ class _HomeMobileWidgetState extends State<HomeMobileWidget> {
                       children: [
                         InkWell(
                           onTap: () async {
-                            if (await isDataInternet() == false) {
-                              showDialogAddDevice(
-                                context: context,
-                                title: "آیا قصد اضافه کردن دستگاه دارید",
-                                content:
-                                    "با زدن بر روی کلید بله شما به صفحه اسکن بارکد منتقل میشوید",
-                                route: "/add_device",
-                              );
-                            } else {
-                              displaySnackBar(context,
-                                  message:
-                                      'لطفا برای برقراری ارتباط با دستگاه اینترنت دیتا خود را خاموش کنید');
-                            }
+                            showDialogAddDevice(
+                              context: context,
+                              title: "آیا قصد اضافه کردن دستگاه دارید",
+                              content:
+                                  "با زدن بر روی کلید بله شما به صفحه اسکن بارکد منتقل میشوید",
+                              route: "/add_device",
+                            );
                           },
                           child: Align(
                             child: FittedBox(
